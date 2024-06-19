@@ -1,16 +1,26 @@
 const scriptSrc = new URL(document.currentScript.src);
 const scriptSrcPathName = scriptSrc.pathname;
+const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
+const basePath = scriptTags
+    .map(tag => tag.src)
+    .filter(src => src.includes(scriptSrcPathName))
+    .reduce((loaderSrc, currentSrc) => currentSrc ? new URL(currentSrc).origin : undefined, undefined);
 
-function getPath(scriptSrcPathName) {
-    const scriptTags = Array.from(document.getElementsByTagName("script"));
-    const loaderSrc = scriptTags.find(tag => tag.src.includes(scriptSrcPathName))?.src;
+console.log("basePath", basePath);
 
-    if (loaderSrc) {
-        const url = new URL(loaderSrc);
-        return `${url.protocol}//${url.host}`;
-    } else {
-        return undefined; // or handle the case where loaderSrc is not found
-    }
-}
+const loadDeps = async() => {
+    const deps = [
+        "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js"
+            `${basePath}/js/user-info.js`,
+    ];
 
-console.log(getPath(scriptSrcPathName));
+    await Promise.all(deps.map(dep => new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = dep;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    })));
+};
+
+await loadDeps();
