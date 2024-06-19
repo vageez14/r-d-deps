@@ -1,4 +1,6 @@
 (() => {
+
+
     const scriptSrc = new URL(document.currentScript.src);
     const scriptSrcPathName = scriptSrc.pathname;
     const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
@@ -7,6 +9,25 @@
         .filter(src => src.includes(scriptSrcPathName))
         .reduce((loaderSrc, currentSrc) => currentSrc ? new URL(currentSrc).origin : undefined, undefined);
 
+    /** FONTS */
+    const ProximaNova = new FontFace("Proxima Nova", `url(https://test.bmwep.bellmedia.ca/common/fonts/ProximaNova-Regular.woff2)`, {
+        fontDisplay : "block",
+    });
+
+    const ProximaNovaBold = new FontFace("Proxima Nova Bold", `url(https://test.bmwep.bellmedia.ca/common/fonts/ProximaNova-Bold.woff2)`, {
+        fontDisplay : "block",
+    });
+
+    const ProximaNovaMedium = new FontFace("Proxima Nova Medium", `url(https://test.bmwep.bellmedia.ca/common/fonts/ProximaNova-Medium.woff2)`, {
+        fontDisplay : "block",
+    });
+
+    Promise.all([ ProximaNova.load(), ProximaNovaBold.load(), ProximaNovaMedium.load() ])
+           .then(fonts => fonts.forEach(font => document.fonts.add(font)))
+           .then(() => console.log("Loaded: Proxima Nova, Proxima Nova Bold, Proxima Nova Medium"))
+           .catch(() => console.error("Failed to load: Proxima Nova, Proxima Nova Bold, Proxima Nova Medium"));
+
+    /** STYLES */
     const cssdeps = [
         "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css",
     ];
@@ -20,6 +41,7 @@
         document.head.appendChild(link);
     });
 
+    /** JAVASCRIPT */
     const jsdeps = [
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
         "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
