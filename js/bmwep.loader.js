@@ -7,7 +7,20 @@
     const basePath = scriptTags
         .map(tag => tag.src)
         .filter(src => src.includes(scriptSrcPathName))
-        .reduce((loaderSrc, currentSrc) => currentSrc ? new URL(currentSrc).origin : undefined, undefined);
+        .reduce((loaderSrc, currentSrc) => {
+            if (currentSrc) {
+                try {
+                    return new URL(currentSrc).origin;
+                } finally {
+                    /**
+                     * Not a valid URL
+                     * This means we are using a relative path
+                     * We return the default window.location.origin set in the reduce function
+                     */
+                }
+            }
+        }, window.location.origin);
+
 
     /** FONTS */
     const ProximaNova = new FontFace("Proxima Nova", `url(https://test.bmwep.bellmedia.ca/common/fonts/ProximaNova-Regular.woff2)`, {
