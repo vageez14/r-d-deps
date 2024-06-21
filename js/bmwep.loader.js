@@ -49,7 +49,7 @@
 
     /** JAVASCRIPT */
     const jsdeps = [
-        `${basePath}/common/user-info.js`,
+        `${basePath}/js/user-info.js`,
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
         "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
         "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
