@@ -25,27 +25,26 @@
         const fontFace = new FontFace(font.name, `url(${font.url})`, { display: "block" });
         return fontFace.load().then(loadedFont => document.fonts.add(loadedFont));
     })).catch(console.error);
-
-
-    const loadResource = (dep, type, url_attribute) => {
+    
+    const createDependencyElement = (dep, type, url_attribute) => {
         const element = document.createElement(type);
         element[ url_attribute ] = dep;
         return element;
     };
 
-    const loadResources = (deps, type, url_attribute) =>
-        deps.map(dep => loadResource(dep, type, url_attribute))
+    const loadDependencies = (deps, type, url_attribute) =>
+        deps.map(dep => createDependencyElement(dep, type, url_attribute))
             .forEach(element => document.head.appendChild(element));
 
     /** LOAD STYLES */
-    loadResources(
+    loadDependencies(
         styledeps,
         "link",
         "href"
     );
 
     /** LOAD JAVASCRIPT */
-    loadResources(
+    loadDependencies(
         jsdeps,
         "script",
         "src"
