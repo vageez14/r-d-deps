@@ -24,8 +24,8 @@
     Promise.all(fonts.map(font => {
         const fontFace = new FontFace(font.name, `url(${font.url})`, { display: "block" });
         return fontFace.load().then(loadedFont => document.fonts.add(loadedFont));
-    })).catch(console.error);
-    
+    })).catch(() => {});
+
     const createDependencyElement = (dep, type, url_attribute) => {
         const element = document.createElement(type);
         element[ url_attribute ] = dep;
