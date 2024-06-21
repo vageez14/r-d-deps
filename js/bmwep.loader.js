@@ -1,8 +1,5 @@
 (() => {
-
-
-    const scriptSrc = new URL(document.currentScript.src);
-    const scriptSrcPathName = scriptSrc.pathname;
+    const scriptSrcPathName = new URL(document.currentScript.src).pathname;
     const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
     const basePath = scriptTags
         .map(tag => tag.src)
@@ -54,8 +51,8 @@
     const jsdeps = [
         `${basePath}/common/user-info.js`,
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
-        `https://test.bmwep.bellmedia.ca/common/large-poster-slider.js`,
-        `https://test.bmwep.bellmedia.ca/common/poster-shelf.js`
+        "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
+        "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
     ];
 
     jsdeps.forEach(dep => {
