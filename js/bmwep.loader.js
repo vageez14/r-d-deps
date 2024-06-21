@@ -1,6 +1,19 @@
 (() => {
     const basePath = new URL(document.currentScript.src).origin;
 
+    /** STYLE DEPENDENCIES */
+    const styledeps = [
+        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
+    ];
+
+    /** JAVASCRIPT DEPENDENCIES */
+    const jsdeps = [
+        `${basePath}/js/user-info.js`,
+        "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
+        "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
+        "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
+    ];
+
     /** FONTS */
     const fonts = [
         { name: "Proxima Nova", url: `${basePath}/common/fonts/ProximaNova-Regular.woff2` },
@@ -14,25 +27,30 @@
     })).catch(console.error);
 
 
-    /** STYLES AND SCRIPTS LOADER */
-    const loadResource = (dep, type, url_attribute) => {
+    const loadResource = (dep) => (type, url_attribute) => {
         const element = document.createElement(type);
         element[ url_attribute ] = dep;
-        document.head.appendChild(element);
+        return element;
     };
-    /** STYLES */
-    [
-        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
-    ].forEach(dep => loadResource(dep, "link", "href"));
 
-    /** JAVASCRIPT */
-    [
-        `${basePath}/js/user-info.js`,
-        "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
-        "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
-        "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
-    ].forEach(dep => loadResource(dep, "script", "src"));
+    const loadResources = (deps, type, url_attribute) => {
+        deps.map(loadResource(type, url_attribute))
+            .forEach(element => document.head.appendChild(element));
+    };
 
+    /** LOAD STYLES */
+    loadResources(
+        styledeps,
+        "link",
+        "href"
+    );
+
+    /** LOAD JAVASCRIPT */
+    loadResources(
+        jsdeps,
+        "script",
+        "src"
+    );
 
 })();
 
