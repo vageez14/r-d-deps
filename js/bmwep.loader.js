@@ -33,10 +33,9 @@
         return element;
     };
 
-    const loadResources = (deps, type, url_attribute) => {
+    const loadResources = (deps, type, url_attribute) =>
         deps.map(loadResource(type, url_attribute))
             .forEach(element => document.head.appendChild(element));
-    };
 
     /** LOAD STYLES */
     loadResources(
