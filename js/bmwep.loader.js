@@ -52,9 +52,10 @@
 
     /** JAVASCRIPT */
     const jsdeps = [
+        `${basePath}/common/user-info.js`,
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
-        `${basePath}/common/large-poster-slider.js`,
-        `${basePath}/common/large-poster-slider.js/common/poster-shelf.js`
+        `https://test.bmwep.bellmedia.ca/common/large-poster-slider.js`,
+        `https://test.bmwep.bellmedia.ca/common/poster-shelf.js`
     ];
 
     jsdeps.forEach(dep => {
