@@ -15,16 +15,15 @@
 
 
     /** STYLES AND SCRIPTS LOADER */
-    const loadResource = (dep, type) => {
+    const loadResource = (dep, type, url_attribute) => {
         const element = document.createElement(type);
-        element[ type === "link" ? "href" : "src" ] = dep;
+        element[ url_attribute ] = dep;
         document.head.appendChild(element);
     };
-
     /** STYLES */
     [
         "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
-    ].forEach(dep => loadResource(dep, "link"));
+    ].forEach(dep => loadResource(dep, "link", "href"));
 
     /** JAVASCRIPT */
     [
@@ -32,7 +31,7 @@
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
         "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
         "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
-    ].forEach(dep => loadResource(dep, "script"));
+    ].forEach(dep => loadResource(dep, "script", "src"));
 
 
 })();
