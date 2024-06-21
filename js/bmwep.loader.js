@@ -1,19 +1,20 @@
 (() => {
-    const scriptSrcPathName = new URL(document.currentScript.src).pathname;
-    const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
-    const basePath = scriptTags
-        .map(tag => tag.src)
-        .filter(src => src.includes(scriptSrcPathName))
-        .reduce((loaderSrc, currentSrc) => {
-            if (currentSrc) {
-                try {
-                    return new URL(currentSrc).origin;
-                } catch (_) {
-                    return loaderSrc;
-                }
-            }
-        }, window.location.origin);
-
+    // const scriptSrcPathName = new URL(document.currentScript.src).pathname;
+    // const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
+    // const basePath = scriptTags
+    //     .map(tag => tag.src)
+    //     .filter(src => src.includes(scriptSrcPathName))
+    //     .reduce((loaderSrc, currentSrc) => {
+    //         if (currentSrc) {
+    //             try {
+    //                 return new URL(currentSrc).origin;
+    //             } catch (_) {
+    //                 return loaderSrc;
+    //             }
+    //         }
+    //     }, window.location.origin);
+    
+    const basePath = new URL(document.currentScript.src).origin;
     console.log("LOADER BASE PATH", basePath);
     /** FONTS */
     const ProximaNova = new FontFace("Proxima Nova", `url(${basePath}/common/fonts/ProximaNova-Regular.woff2)`, {
