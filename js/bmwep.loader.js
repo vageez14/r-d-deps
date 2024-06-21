@@ -1,68 +1,40 @@
 (() => {
-    // const scriptSrcPathName = new URL(document.currentScript.src).pathname;
-    // const scriptTags = Array.from(document.getElementsByTagName("script")) ?? [];
-    // const basePath = scriptTags
-    //     .map(tag => tag.src)
-    //     .filter(src => src.includes(scriptSrcPathName))
-    //     .reduce((loaderSrc, currentSrc) => {
-    //         if (currentSrc) {
-    //             try {
-    //                 return new URL(currentSrc).origin;
-    //             } catch (_) {
-    //                 return loaderSrc;
-    //             }
-    //         }
-    //     }, window.location.origin);
-    
     const basePath = new URL(document.currentScript.src).origin;
-    console.log("LOADER BASE PATH", basePath);
+
     /** FONTS */
-    const ProximaNova = new FontFace("Proxima Nova", `url(${basePath}/common/fonts/ProximaNova-Regular.woff2)`, {
-        fontDisplay: "block"
-    });
-
-    const ProximaNovaBold = new FontFace("Proxima Nova Bold", `url(${basePath}/common/fonts/ProximaNova-Bold.woff2)`, {
-        fontDisplay: "block"
-    });
-
-    const ProximaNovaMedium = new FontFace("Proxima Nova Medium", `url(${basePath}/common/fonts/ProximaNova-Medium.woff2)`, {
-        fontDisplay: "block"
-    });
-
-    Promise.all([ ProximaNova.load(), ProximaNovaBold.load(), ProximaNovaMedium.load() ])
-           .then(fonts => fonts.forEach(font => document.fonts.add(font)))
-           .then(() => console.log("Loaded: Proxima Nova, Proxima Nova Bold, Proxima Nova Medium"))
-           .catch(() => console.error("Failed to load: Proxima Nova, Proxima Nova Bold, Proxima Nova Medium"));
-
-    /** STYLES */
-    const cssdeps = [
-        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
+    const fonts = [
+        { name: "Proxima Nova", url: `${basePath}/common/fonts/ProximaNova-Regular.woff2` },
+        { name: "Proxima Nova Bold", url: `${basePath}/common/fonts/ProximaNova-Bold.woff2` },
+        { name: "Proxima Nova Medium", url: `${basePath}/common/fonts/ProximaNova-Medium.woff2` }
     ];
 
-    cssdeps.forEach(dep => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = dep;
-        link.onload = () => {};
-        link.onerror = () => {};
-        document.head.appendChild(link);
-    });
+    Promise.all(fonts.map(font => {
+        const fontFace = new FontFace(font.name, `url(${font.url})`, { display: "block" });
+        return fontFace.load().then(loadedFont => document.fonts.add(loadedFont));
+    })).catch(console.error);
+
+
+    /** STYLES AND SCRIPTS LOADER */
+    const loadResource = (dep, type) => {
+        const element = document.createElement(type);
+        element[ type === "link" ? "href" : "src" ] = dep;
+        document.head.appendChild(element);
+    };
+
+    /** STYLES */
+    [
+        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
+    ].forEach(dep => loadResource(dep, "link"));
 
     /** JAVASCRIPT */
-    const jsdeps = [
+    [
         `${basePath}/js/user-info.js`,
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
         "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
         "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
-    ];
+    ].forEach(dep => loadResource(dep, "script"));
 
-    jsdeps.forEach(dep => {
-        const script = document.createElement("script");
-        script.src = dep;
-        script.onload = () => {};
-        script.onerror = () => {};
-        document.head.appendChild(script);
-    });
+
 })();
 
 MEDIAQUERYSMALL = `@media (max-width:992px)`;
