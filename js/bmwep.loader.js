@@ -17,7 +17,7 @@
             }
         }, window.location.origin);
 
-
+    console.log("LOADER BASE PATH", basePath);
     /** FONTS */
     const ProximaNova = new FontFace("Proxima Nova", `url(${basePath}/common/fonts/ProximaNova-Regular.woff2)`, {
         fontDisplay: "block"
