@@ -27,14 +27,14 @@
     })).catch(console.error);
 
 
-    const loadResource = (dep) => (type, url_attribute) => {
+    const loadResource = (dep) => ({ type, url_attribute }) => {
         const element = document.createElement(type);
         element[ url_attribute ] = dep;
         return element;
     };
 
     const loadResources = (deps, type, url_attribute) =>
-        deps.map(loadResource(type, url_attribute))
+        deps.map(loadResource({ type, url_attribute }))
             .forEach(element => document.head.appendChild(element));
 
     /** LOAD STYLES */
