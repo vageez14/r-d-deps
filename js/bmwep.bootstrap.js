@@ -29,18 +29,18 @@
         return fontFace.load().then(loadedFont => document.fonts.add(loadedFont));
     })).catch(() => {});
 
-    const createDependencyElement = (dep, type, url_attribute) => {
-        const element = document.createElement(type);
+    const createDependencyElement = (dep, elem_type, url_attribute) => {
+        const element = document.createElement(elem_type);
         element[ url_attribute ] = dep;
-        if (type === "link") {
+        if (elem_type === "link") {
             element.rel = "stylesheet";
             element.type = "text/css";
         }
         return element;
     };
 
-    const loadDependencies = (deps, type, url_attribute) =>
-        deps.map(dep => createDependencyElement(dep, type, url_attribute))
+    const loadDependencies = (deps, elem_type, url_attribute) =>
+        deps.map(dep => createDependencyElement(dep, elem_type, url_attribute))
             .forEach(element => document.head.appendChild(element));
 
     /** LOAD STYLES */
