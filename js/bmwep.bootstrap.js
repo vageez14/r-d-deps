@@ -3,7 +3,8 @@
 
     /** STYLE DEPENDENCIES */
     const styledeps = [
-        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css"
+        "https://cdn.jsdelivr.net/npm/reset-css@latest/reset.min.css",
+        `${basePath}/styles/global.css`
     ];
 
     /** JAVASCRIPT DEPENDENCIES */
@@ -11,6 +12,7 @@
         `${basePath}/js/user-info.js`,
         `${basePath}/js/bmwep.theme.js`,
         "https://cdn.jsdelivr.net/npm/swiper@latest/swiper-element-bundle.min.js",
+        "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
         "https://test.bmwep.bellmedia.ca/common/large-poster-slider.js",
         "https://test.bmwep.bellmedia.ca/common/poster-shelf.js"
     ];
@@ -30,6 +32,10 @@
     const createDependencyElement = (dep, type, url_attribute) => {
         const element = document.createElement(type);
         element[ url_attribute ] = dep;
+        if (type === "link") {
+            element.rel = "stylesheet";
+            element.type = "text/css";
+        }
         return element;
     };
 
